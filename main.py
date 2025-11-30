@@ -34,7 +34,7 @@ conn.commit()
 cursor.execute("SELECT COUNT(*) FROM sales_data")
 count = cursor.fetchone()[0]
 if count == 0:
-    cursor.execute("INSERT INTO sales_data (title, isbn, author, process_date, sales_total, sales_canada, sales_chapter, sales_us, sales_foreign, sales_high_discount, sales_state_adoption, sales_sub_us, sales_sub_foreign, sales_sub_trial) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", ("Reading Program", 1234567890123, "John Doe", "23-Nov-2025​", 33750, 2000, 1500, 7000, 3000, 800, 15000, 3600, 700, 150))
+    cursor.execute("INSERT INTO sales_data (title, isbn, author, process_date, sales_total, sales_canada, sales_chapter, sales_us, sales_foreign, sales_high_discount, sales_state_adoption, sales_sub_us, sales_sub_foreign, sales_sub_trial) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", ("Reading Program", 1234567890123, "John Doe", "23-Nov-2025​", 337500, 20000, 15000, 70000, 30000, 8000, 15000, 36000, 7000, 15000))
     conn.commit()
 
 cursor.execute("SELECT COUNT(*) FROM author_data")

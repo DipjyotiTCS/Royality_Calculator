@@ -144,3 +144,49 @@ def addSalesData():
     tabular_author_data = conn.execute("SELECT * FROM author_data").fetchall()
     conn.close()
     return [dict(data) for data in tabular_author_data]
+
+
+# API to update author rates data
+@router.post("/updateAuthorRates")
+def updateAuthorRates(authorData : AuthorData):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        INSERT INTO author_data (
+            title, isbn, author, royalty_canada, royalty_chapter,
+            royalty_us, royalty_foreign, royalty_high_discount,
+            royalty_state_adoption, royalty_sub_us, royalty_sub_foreign,
+            royalty_sub_trial
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(isbn, author) DO UPDATE SET
+        title = excluded.title,
+        royalty_canada = excluded.royalty_canada,
+        royalty_chapter = excluded.royalty_chapter,
+        royalty_us = excluded.royalty_us,
+        royalty_foreign = excluded.royalty_foreign,
+        royalty_high_discount = excluded.royalty_high_discount,
+        royalty_state_adoption = excluded.royalty_state_adoption,
+        royalty_sub_us = excluded.royalty_sub_us,
+        royalty_sub_foreign = excluded.royalty_sub_foreign,
+        royalty_sub_trial = excluded.royalty_sub_trial
+        """,
+        (
+            authorData.title,
+            authorData.isbn,
+            authorData.author,
+            authorData.royalty_canada,
+            authorData.royalty_chapter,
+            authorData.royalty_us,
+            authorData.royalty_foreign,
+            authorData.royalty_high_discount,
+            authorData.royalty_state_adoption,
+            authorData.royalty_sub_us,
+            authorData.royalty_sub_foreign,
+            authorData.royalty_sub_trial,
+        )
+    )
+    conn.commit()
+    conn.close()
+    return {"message": "Sales data updated successfully"}
